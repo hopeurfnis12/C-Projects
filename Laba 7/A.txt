@@ -1,0 +1,35 @@
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+int main(){
+  out <<  fixed << setprecision(5);
+  double x1, y1, r, x2, y2, R;
+  double otv;
+  in >> x1 >> y1 >> r >> x2 >> y2;
+  R = ( ((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)) );
+  R = sqrt(R);
+  //cout << R << endl;
+  if(R < r){
+    out << 0;
+  } else {
+    if(R == r) out << 1 << endl << x2 << " " << y2;
+    else {
+      double x3, y3, x4, y4, d, d1, d2, t;
+      t = acos(r / R);
+      d = atan2(y2 - y1, x2 - x1);
+      d1 = d + t;
+      d2 = d - t;
+      x3 = x1 + r * cos(d1);
+      y3 = y1 + r * sin(d1);
+      x4 = x1 + r * cos(d2);
+      y4 = y1 + r * sin(d2);
+      out << 2 << endl << x3 << " " << y3 << " " << x4 << " " << y4;
+    }
+  }
+}

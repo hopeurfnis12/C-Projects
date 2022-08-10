@@ -1,0 +1,46 @@
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+double len(double x1, double y1, double x2, double y2){
+  double r;
+  r = ( ((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)) );
+  r = sqrt(r);
+  return r;
+}
+
+int main(){
+  int n = 3;
+  double *x = new double[n];
+  double *y = new double[n];
+  for(int i = 0; i < n; i++){
+    in >> x[i] >> y[i];
+  }
+
+  double xn;
+  double yn;
+
+  xn = abs(x[1] - x[2]);
+  yn = abs(y[1] - y[2]);
+  
+  double x1, y1, x2, y2;
+
+  x1 = abs(x[0] - x[1]);
+  y1 = abs(y[0] - y[1]);
+  x2 = abs(x[0] - x[2]);
+  y2 = abs(y[0] - y[2]);
+    
+  double xy1 = len(x[1], y[1], x[2], y[2]);
+  double xy2 = len(x[0], y[0], x[1], y[1]);
+  double xy3 = len(x[0], y[0], x[2], y[2]);
+
+
+  if((xn == (x1 + x2)) && (yn == (y1 + y2)) && ((xy2 + xy3) == xy1)) out << "YES";
+  else out << "NO";
+
+}

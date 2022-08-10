@@ -1,0 +1,48 @@
+#include <cstdio>
+using namespace std;
+
+
+FILE *in = fopen("input.txt","r");
+FILE *out = fopen("output.txt","w");
+ 
+struct Node{
+	     int d;
+	     Node *next;
+	   };
+Node *top=NULL; 
+
+void push(Node **top, int d){
+Node *pv; 
+  pv=new Node;
+  pv->d=d; 
+  if(!top) pv->next=0;
+  else pv->next=*top;
+  *top=pv;
+}
+
+int pop(Node **top){
+   int temp=(*top)->d;
+   Node *pv=*top;
+   (*top)=(*top)->next;
+   delete pv;
+   return temp;
+}
+void init(){
+  int d;
+  while (!feof(in))  { fscanf(in, "%d", &d);  push(&top,d); }
+}
+void print(Node *top){
+ Node *temp;
+ temp=top;
+ while(temp)  {
+    fprintf(out, "%d ", temp->d);    
+    temp=temp->next;
+  }
+}
+
+int main(){
+ top=0;
+ init();
+ pop(&top); 
+ print(top);
+}

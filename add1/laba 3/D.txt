@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <map>
+#include <string>
+
+using namespace std;
+
+int main(){
+  FILE *in = fopen("input.txt", "r");
+  FILE *out = fopen("output.txt", "w");
+  int n;
+  fscanf(in, "%d", &n);
+  map<string, unsigned int> s1;
+  map<unsigned int, string> s2;
+  int *arr = new int[n];
+  for(int i = 0; i < n; i++){
+    char ch[100];
+    fscanf(in, "%d", &arr[i]);
+    fscanf(in, "%s", &ch[0]);
+    map<string, unsigned int>::iterator it;
+    it = s1.find(ch);
+    if (it != s1.end()) {
+      arr[i] += (*it).second;
+      s1.erase(it);
+      s1[ch] = arr[i];
+      s2[i] = ch;
+    }
+    else {
+        s1[ch] = arr[i];
+        s2[i] = ch;
+      }
+  }
+  string ms;
+  int m;
+  map<string, unsigned int>::iterator it;
+  map<unsigned int, string>::iterator it1;
+  for (it = s1.begin(); it != s1.end(); it++){
+    if(it == s1.begin()) {
+      m = (*it).second;
+      ms = (*it).first;
+    }
+    if(m == (*it).second){
+      for(it1 = s2.end(); (*it1).first != -1; it1--){
+        if(it1 == s2.end()) continue;
+        if((*it).first == (*it1).second){
+          break;
+        } else {
+          if(ms == (*it1).second){
+            m = (*it).second;
+            ms = (*it).first;
+            break;
+          }
+        }
+      }
+    } else {
+      if(m < (*it).second) {
+        m = (*it).second;
+        ms = (*it).first;
+      }
+    }
+  }
+  fprintf(out, "%s", ms.c_str());
+  fclose(in);
+  fclose(out);
+}

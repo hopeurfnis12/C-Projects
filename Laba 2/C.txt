@@ -1,0 +1,68 @@
+#include <stdio.h>
+
+int main() {
+  FILE *in = fopen("input.txt", "r");
+	FILE *out = fopen("output.txt", "w");
+	char c[100], j[100];
+	bool t = true;
+	int x[100];
+	int s = 0, a = 0, q = 0, l = 0, k = 0;
+  while(!feof(in)){
+	  fscanf(in, "%c", &c[l]);
+    l++;
+  }
+
+	while(c[q] == ' ') q++;
+
+	for(int i = q; i < l; i++){
+    int y = i;
+    int h = 0;
+    if(c[i] >= '0' && c[i] <= '9') {
+      int g = 0;
+      while(c[i] != ' ' && c[i] >= '0' && c[i] <= '9'){
+        g++;
+        i++;    
+      }
+      i--;
+      int w = 1;
+      for(int p = 1; p < g; p++){
+        w = w * 10;
+      }
+      for(int m = g; m > 0; m--){
+        a = (int)(c[y]);
+        h = h + ((a - 48) * w);
+        w /= 10;
+        y++;
+      }
+      x[s] = h;
+      //printf("%d ", x[s]);
+      s++;
+    } else if(c[i] != ' ') {
+      j[k] = c[i];
+      k++;
+      }
+  }
+  k--;
+  int r = 0, e = 0;
+  fprintf(out, "%d ", x[r]);
+  r++;
+  int h = 0, g = 0;
+  if(j[0] == '(') {h++; g++;}
+
+	for(int i = h; i < k; i++){
+    if((j[i] == '+' || j[i] == '-' || j[i] == '*'|| j[i] == '/') && (j[i + 1] != '(' && j[i] != ')')) {
+      fprintf(out, "%d %c ", x[r], j[i]); 
+      r++;
+    } else if(j[i] == ')' && g == 0){
+      fprintf(out, "%c ", j[e]);
+      } else if(j[i + 1] == '('){
+        fprintf(out, "%d ", x[r]);
+        e = i;
+        r++;
+        i++;
+      } else g--;
+  }
+	fclose(out);
+	fclose(in);
+  return 0; 
+}

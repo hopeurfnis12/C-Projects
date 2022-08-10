@@ -1,0 +1,82 @@
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+#include <vector>
+#include <cstring>
+#include <fstream>
+using namespace std;
+
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+int way[100], visit[100], n, m, k, a[100][100], l = 0, maxl = 0, b[100], minl[100], mini[100], p = 0;
+int start;
+void Print(int v){
+  if (v>0) {
+    Print(way[v]);
+    //cout << v << ' ';
+    l++;
+  }
+}
+void dfs(int v){
+  int u;
+  visit[v] = 1;
+  for (u = 1; u <= n; u++)
+    if (a[v][u] > 0 && visit[u] == 0){
+      way[u] = v;
+      dfs(u);
+    }
+  Print(v);
+  if(l > maxl){
+    maxl = l;
+  }
+  l = 0;
+  //cout << endl;
+  visit[v] = 0;
+}
+
+void Init(){
+  int i,j,k;
+  in >> n >> m;
+  memset(way, 0, sizeof(way));
+  memset(visit, 0, sizeof(visit));
+  memset(a, 0, sizeof(a));
+  for(k = 1; k <= m; k++){
+    in >> i >> j;
+    a[i][j] = 1;
+    a[j][i] = 1;
+  }
+}
+
+int main() {
+  Init();
+  for(int i = 1; i <= n; i++){
+    dfs(i);
+    b[i] = maxl;
+    if(i == 1){
+      p++;
+      minl[p] = b[i];
+      mini[p] = i;
+    } else {
+      if(minl[p] == b[i]){
+        p++;
+        minl[p] = b[i];
+        mini[p] = i;
+      } else {
+        p = 1;
+        if(minl[p] > b[i]){
+          minl[p] = b[i];
+          mini[p] = i;
+        }
+      }
+    }
+    maxl = 0;
+    memset(way, 0, sizeof(way));
+    memset(visit, 0, sizeof(visit));
+  }
+  out << p << endl;
+  for(int i = 1; i <= p; i++){
+    out << mini[i] << " ";
+  }
+}

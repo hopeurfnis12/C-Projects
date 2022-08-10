@@ -1,0 +1,50 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+const int n = 8;
+int A[n][n], B[n], poz, realpoz = 1;
+
+int soch(){
+  for(int a = 0; a < n; ++a){
+    for(int b = 0; b < n; ++b){
+      if(A[a][b]) B[a] = b+1;
+    }
+  }
+  if (poz == realpoz) return -1;
+  realpoz++;
+  return 0;
+}
+
+bool torf(int a, int b){
+  for(int i = 0; i < a; ++i) if(A[i][b]) return false;
+  for(int i = 1; i <= a && b-i >= 0; ++i) if(A[a-i][b-i]) return false;
+  for(int i = 1; i <= a && b+i < n; i++) if(A[a-i][b+i]) return false;
+  return true;
+}
+
+int resh(int a){
+  if(a == n){
+    if(soch() == -1) return -1;
+  }    
+  for(int i = 0; i < n; ++i){
+    if(torf(a, i)) {
+      A[a][i] = 1;
+      if(resh(a+1) == -1) return -1;
+      A[a][i] = 0;
+    }
+  }
+  return 0;
+}
+
+int main(){ 
+  in >> poz;
+  resh(0);
+  for(int i = 0; i < n; i++){
+    out << B[i] << " ";
+  }
+  in.close();
+  out.close();
+}

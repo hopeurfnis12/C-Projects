@@ -1,0 +1,53 @@
+#include <iostream>
+#include <stdlib.h>
+#include <vector>
+#include <algorithm>
+#include <fstream>
+using namespace std;
+
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+typedef struct tpedge { int x,y,d;};
+vector <tpedge> edge;
+vector <int> x, y, color;
+int n, m, s=0;
+void Init(){
+int i,j,k;
+cin>>n>>m;
+edge.resize(m); color.resize(n+1);
+for (k=0; k<m; k++) cin>>edge[k].x>>edge[k].y>>edge[k].d;
+}
+bool Compare(tpedge p1, tpedge p2)
+{ return p1.d<p2.d; }
+void Kruskal(){
+int i, j, k, col1, col2;
+for (i=1; i<=n; i++) color[i] = i;
+sort(edge.begin(), edge.end(), Compare);
+j=0;
+for (k=0; k<n-1; k++){
+ for (i=k; i<m; i++)
+ if (color[edge[i].x] != color[edge[i].y])
+ {
+ x.push_back(edge[i].x); y.push_back(edge[i].y);
+ s=s + edge[i].d; break;
+ }
+ col1 = color[x[k]]; col2 = color[y[k]];
+ for (i=1; i<=n; i++)
+ if (color[i]==col1) color[i] = col2;
+}
+}
+void print(){
+int i;
+cout << s << endl;
+cout << s << endl;
+for(i=0; i<n-1; i++) cout << x[i] << ' ' << y[i] << endl;
+}
+int main(){
+ freopen("input.txt", "r", stdin);
+ freopen("output.txt", "w", stdout);
+ Init();
+ Kruskal();
+ print();
+}

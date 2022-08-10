@@ -1,0 +1,74 @@
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <cstdlib>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+int N;
+const int MAXN = 30002;
+
+void LongModK(int *a, long int K, int *c){
+  long int r;
+  int i, len;
+  r=0;
+  len=a[0];
+  memset(c, 0, sizeof(int)*MAXN);
+  for (i=len; i>=1;i--){
+    r=r*10+a[i];
+   //cout << r << endl;
+    r = r % K;
+  }
+  long long otv = r;
+  out << otv;
+  for (i=len; i>=1;i--) if (c[i]>0) break;
+  if (i==0) i=1;
+  c[0]=i;
+}
+
+void LongDivK(int *a, long int K, int *c){
+  long int r;
+  int i, len;
+  r=0;
+  len=a[0];
+  memset(c, 0, sizeof(int)*MAXN);
+  for (i=len; i>=1;i--){
+    r=r*10+a[i];
+    c[i]=r / K;
+    r=r % K;
+  }
+  for (i=len; i>=1;i--) if (c[i]>0) break;
+  if (i==0) i=1;
+  c[0]=i;
+}
+
+
+
+int ReadLong(int *a){
+  int i, l; string s;
+  in>>s;
+  N=s.length();
+  a[0]=N;
+  for(i=N-1; i>=0;i--) a[N-i]=s.at(i)-48;
+  return 0;
+}
+
+int WriteLong(int *a){
+  int i;
+  for(i=a[0]; i>=1;i--) out<<a[i];
+  out<<endl;
+  return 0;
+}
+
+
+int main(){
+  int *a = new int [300001];
+  int *c = new int [300001];
+  long int k;
+  ReadLong(a);
+  in >> k;
+  LongDivK(a, k, c);
+  WriteLong(c);
+  LongModK(a, k, c);
+}

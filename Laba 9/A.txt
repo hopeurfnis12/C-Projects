@@ -1,0 +1,31 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+int main(){
+  string s1, s2;
+  bool t;
+  in >> s1;
+  in >> s2;
+  long long l1 = s1.size(), l2 = s2.size();
+  for(long long i = 0; i < l1 - l2 + 1; i++){
+    t = true;
+    if(s1[i] == s2[0]){
+      
+      for(long long c = 0; c < l2; c++){
+        if(s1[i + c] != s2[c]){
+          t = false;
+          i += c - 1;
+          break;
+        }
+      }
+      if(t == true){
+        out << i << " ";
+      }
+    } 
+  }
+}

@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <map>
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+int main(){
+  FILE *in = fopen("input.txt", "r");
+  int n;
+  fscanf(in, "%d", &n);
+  map<string, unsigned int> st;
+  map<unsigned int, string> ss;
+  int *arr = new int[n];
+  for(int i = 0; i < n; i++){
+    char sd[100];
+    fscanf(in, "%d", &arr[i]);
+    fscanf(in, "%s", &sd[0]);
+    map<string, unsigned int>::iterator it;
+    it = st.find(sd);
+    if (it != st.end()) {
+      arr[i] += (*it).second;
+      st.erase(it);
+      st[sd] = arr[i];
+      ss[i] = sd;
+    }
+    else {
+        st[sd] = arr[i];
+        ss[i] = sd;
+      }
+  }
+  string maxs;
+  int max;
+  map<string, unsigned int>::iterator it;
+  map<unsigned int, string>::iterator it1;
+  for (it = st.begin(); it != st.end(); it++){
+//    cout << (*it).first << " => " << (*it).second << endl; 
+    if(it == st.begin()) {
+      max = (*it).second;
+      maxs = (*it).first;
+    }
+    if(max == (*it).second){
+      for(it1 = ss.end(); (*it1).first != -1; it1--){
+        if(it1 == ss.end()) continue;
+//        cout << (*it1).first << " => " << (*it1).second << endl;
+        if((*it).first == (*it1).second){
+          break;
+        } else {
+          if(maxs == (*it1).second){
+            max = (*it).second;
+            maxs = (*it).first;
+            break;
+          }
+        }
+      }
+    } else {
+      if(max < (*it).second) {
+        max = (*it).second;
+        maxs = (*it).first;
+      }
+    }
+  }
+  FILE *out = fopen("output.txt", "w");
+  fprintf(out, "%s", maxs.c_str());
+  fclose(in);
+  fclose(out);
+}

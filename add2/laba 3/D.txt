@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <map>
+#include <string>
+using namespace std;
+int main(){
+  FILE *in = fopen("input.txt", "r");
+  FILE *out = fopen("output.txt", "w");
+  int n;
+  fscanf(in, "%d", &n);
+  map<string, unsigned int> string1;
+  map<unsigned int, string> string2;
+  int *arr = new int[n];
+  for(int i = 0; i < n; i++){
+    char c[100];
+    fscanf(in, "%d", &arr[i]);
+    fscanf(in, "%s", &c[0]);
+    map<string, unsigned int>::iterator it;
+    it = string1.find(c);
+    if (it != string1.end()) {
+      arr[i] += (*it).second;
+      string1.erase(it);
+      string1[c] = arr[i];
+      string2[i] = c;
+    }
+    else {
+        string1[c] = arr[i];
+        string2[i] = c;
+      }
+  }
+  string firstteateamscore;
+  int teamscore;
+  map<string, unsigned int>::iterator it;
+  map<unsigned int, string>::iterator it1;
+  for (it = string1.begin(); it != string1.end(); it++){
+    if(it == string1.begin()) {
+      teamscore = (*it).second;
+      firstteateamscore = (*it).first;
+    }
+    if(teamscore == (*it).second){
+      for(it1 = string2.end(); (*it1).first != -1; it1--){
+        if(it1 == string2.end()) continue;
+        if((*it).first == (*it1).second){
+          break;
+        } else {
+          if(firstteateamscore == (*it1).second){
+            teamscore = (*it).second;
+            firstteateamscore = (*it).first;
+            break;
+          }
+        }
+      }
+    } else {
+      if(teamscore < (*it).second) {
+        teamscore = (*it).second;
+        firstteateamscore = (*it).first;
+      }
+    }
+  }
+  fprintf(out, "%s", firstteateamscore.c_str());
+}

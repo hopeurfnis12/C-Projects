@@ -1,0 +1,55 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+vector<long long> A(0);
+long long n, q;
+
+/*
+void pr(){
+  for(long long i = 0; i < n; i++){
+    cout << A[i] << " ";
+  }
+  cout << endl;
+}
+*/
+
+void add(long long y, long long z){
+  for(int i = y; i < z; i++){
+    A[i]++;
+  }
+}
+
+long long fout(long long y, long long z){
+  long long f = 1;
+  for(int i = y; i < z; i++){
+    f *= A[i];
+  }
+  f%=1000003;
+  return f;
+}
+
+int main(){
+  long long x, y, z;
+  in >> n;
+  A.resize(n);
+  for(long long i = 0; i < n; i++){
+    in >> A[i];
+  }
+  //pr();
+  in >> q;
+  for(long long i = 0; i < q; i++){
+    in >> x >> y >> z;
+    if(x == 0){
+      add(y - 1, z);
+    } else {
+      out << fout(y - 1, z) << endl;
+    }
+    //cout << y << " " << z << endl;
+    //pr();
+  }
+}

@@ -1,0 +1,71 @@
+#include <stdio.h>
+#define CITY_MAX   101
+#define ROAD_MAX   1001
+
+FILE *in = fopen("input.txt", "r");
+FILE *out = fopen("output.txt", "w");
+
+struct road
+{
+  int city1;
+  int city2;
+};
+struct roadto
+{
+  struct roadto *next;
+  int city;
+};
+struct city
+{
+  struct roadto *roads;
+  int state;
+};
+void assignCity( struct city *cityList, struct city *city, int state)
+{
+  struct roadto *roadto;
+  city->state = state;
+  for( roadto = city->roads; roadto != NULL; roadto = roadto->next)
+    if( cityList[roadto->city].state == 0 )
+      assignCity( cityList, &cityList[roadto->city], state);
+}
+int main(){
+  struct roadto roadHeap[2*ROAD_MAX];
+  struct city cities[CITY_MAX+1];
+  int stateCount = 0;
+  int r, c;
+  int N;
+  int M;
+  int x, y;
+  fscanf(in, "%d %d", &N, &M);  
+  struct road roadList[M];
+  for(int i = 0; i < M; i++){
+    fscanf(in, "%d %d", &x, &y);
+    roadList[i].city1 = x;
+    roadList[i].city2 = y;
+  }
+  for( c = 1; c <= N; c++)
+  {
+    cities[c].roads = NULL;
+    cities[c].state = 0;
+  }
+  for( r = 0; r < M; r++)
+  {
+    struct road *road = &roadList[r];
+    struct roadto *roadto;
+    roadto = &roadHeap[2*r];
+    roadto->city = road->city2;
+    roadto->next = cities[road->city1].roads;
+    cities[road->city1].roads = roadto;
+    roadto = &roadHeap[2*r+1];
+    roadto->city = road->city1;
+    roadto->next = cities[road->city2].roads;
+    cities[road->city2].roads = roadto;
+  }
+  for( c = 1; c <= N; c++)
+    if( cities[c ].state == 0 )
+    {
+      ++stateCount;
+      assignCity( cities, &cities[c ], stateCount);
+    }
+  fprintf(out, "%d", stateCount);
+}

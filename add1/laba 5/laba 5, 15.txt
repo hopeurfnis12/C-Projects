@@ -1,0 +1,41 @@
+#include <stdio.h>
+
+FILE *in = fopen("input.txt", "r");
+FILE *out = fopen("output.txt", "w");
+
+inline int array_cmp(const int* a, const int* b, int v){
+  while((a < b) && (*a == v))
+    ++a;
+  return (a == b);
+}
+ 
+int main(){ 
+  int N, i, j, i1, j1, r, n, m, size;
+  fscanf(in, "%d", &N);
+  int mat[N][N];
+  for(i = 0; i < N; i++){
+    for(j = 0; j < N; j++){
+      fscanf(in, "%d", &mat[i][j]);
+    }
+  }
+  i1 = N;
+  j1 = N;
+  for(size = i = 0; i < N; ++i){
+    for(j = 0; j < N; ++j){
+      if(mat[i][j] != 1) continue;
+      n = i + 1;
+      m = j + 1;
+      for(; n <= N && m <= N; ++n, ++m){
+        for(r = i; r < n; ++r){
+          if(!array_cmp(mat[r] + j, mat[r] + m, 1)) break;
+        }
+        if(r == n && (n - i) > size){
+          i1 = i;
+          j1 = j;
+          size = n - i;
+        }
+      }
+    }
+  }  
+  fprintf(out, "%d\n%d %d", size, i1 + 1, j1 + 1);
+}

@@ -1,0 +1,27 @@
+#include <stdio.h>
+int main() {
+  FILE *in = fopen("input.txt", "r");
+  FILE *out = fopen("output.txt", "w");
+  long n = 0, m = 0, x = 0, y = 0;
+  fscanf(in, "%ld", &n);
+  long *a = new long[n];
+  for(int i = 0; i < n; i++){
+    fscanf(in, "%ld", &a[i]);
+    if(i == 0 || a[i] > m) {
+      m = a[i];
+      x = i + 1;
+      y = i + 1;
+    }
+  }
+  for(int i = 0; i < n; i++){
+    for(int j = i + 1; j < n; j++){
+      a[i] += a[j];
+      if(a[i] > m){
+        m = a[i];
+        x = i + 1;
+        y = j + 1;
+      }
+    }
+  }
+  fprintf(out, "%ld %ld", x, y);
+}

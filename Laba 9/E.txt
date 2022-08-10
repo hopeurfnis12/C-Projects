@@ -1,0 +1,45 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt"); 
+
+int main() {
+  struct Set {
+    const int p = 100;
+    vector <int> s;
+    vector <int> a;
+    Set(const int n) : a(n, 0), s((n + p - 1) / p, 0){}
+    void add(const int i) {
+      a[i]++;
+      s[i/p]++;
+    }
+    int f(const int ind) const {
+      int pe = (ind + p - 1) / p * p;
+      int sum = 0;
+      for (int i = ind; i < (int)a.size() && i < pe; i++) {
+        sum += a[i];
+      }
+      for (int i = pe / p; i < (int)s.size(); i++) {
+        sum += s[i];
+      }
+      return sum;
+    }
+  };
+  int n, m = 0, k, x;
+  in >> n >> k;
+  for (int z = 1; z <= k; z++) {
+    Set set(n);
+    for (int i = 0; i < n; i++) {
+      x = 0;
+      in >> x;
+      x--;
+      m += set.f(x + 1);
+      set.add(x);
+    }
+  }
+  out << m;
+}

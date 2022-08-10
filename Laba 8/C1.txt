@@ -1,0 +1,46 @@
+#include <iostream>
+#include <limits.h>
+#include <fstream>
+using namespace std;
+
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+const int MAXN = 1000;
+int A[MAXN][MAXN], x[MAXN], y[MAXN], color[MAXN];
+int n, m, s;
+void Init(){
+int i,j,k,d;
+in>>n>>m;
+for (k=1; k<=m; k++) {
+in>>i>>j>>d;
+A[i][j]=d; A[j][i]=d;
+}
+}
+void Prima(){
+int i, j, k, z, col1, col2, mind, im, jm;
+for (i = 1; i <= n; i++) color[i] = i;
+z = 0;
+for (k = 1; k < n; k++){
+ mind=INT_MAX;
+ for (i = 1; i <= n; i++)
+ for (j = 1; j <= n; j++)
+ if( A[i][j] > 0 && color[i] != color[j] && mind > A[i][j] )
+ { mind = A[i][j]; im = i; jm = j;}
+ z = z + 1;
+ x[z] = im; y[z] = jm; s = s + A[im][jm];
+ col1 = color[im]; col2 = color[jm];
+ for (i = 1; i <= n; i++)
+ if (color[i] == col1) color[i] = col2;
+}
+}
+void print(){
+int i;
+out << s << endl;
+out << s << endl;
+for (i = 1; i < n; i++) out << x[i] << ' ' << y[i] << endl;
+}
+int main(){
+Init(); Prima(); print();
+}

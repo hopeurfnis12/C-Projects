@@ -1,0 +1,72 @@
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+int n;
+/*
+void LongXLong(int *a, int *b, int *c){
+  int i, j, p, q;
+  p=a[0]+b[0];
+  memset(c, 0, sizeof(int)* MAXN);
+  if (a[0]==1 && a[1]==0 || b[0]==1 && b[1]==0){
+    c[0]=1;
+    c[1]=0;
+    return;
+  }
+  p=a[0]+b[0];
+  for (i=1; i<=a[0];i++)
+    for (j=1; j<=b[0];j++){
+      q=i+j-1; // место в результате произведения i-й и j-й цифр
+      c[q]+=a[i]*b[j];
+      if(c[q]>9) {
+        c[q+1]+=c[q]/10;
+        c[q]%=10;
+      }
+    }
+  if(c[p]!=0) c[0]=p; else c[0]=p-1;
+}
+*/
+
+int summa(int *a, int *b, int *c){
+  int i, n, r=0;
+  if (a[0]>b[0]) n=a[0]; else n=b[0];
+  memset(c, 0, sizeof(int)*(n+1));
+  for(i=1; i<=n;i++){
+    r=a[i]+b[i]+r; c[i]=r%10; r=r/10;
+  }
+  if (r>0) {n++; c[n]=r;}
+  c[0]=n;
+  return 0;
+}
+
+int ReadLong(int *a){
+  int i, l; string s;
+  in>>s;
+  n=s.length();
+  a[0]=n;
+  for(i=n-1; i>=0;i--) a[n-i]=s.at(i)-48;
+  return 0;
+}
+int WriteLong(int *a){
+  int i;
+  for(i=a[0]; i>=1;i--) out<<a[i];
+  out<<endl;
+  return 0;
+}
+
+
+int main(){
+  int *a = new int [300001];
+  int *b = new int [300001];
+  int *c = new int [300001];
+  ReadLong(a);
+//  WriteLong(a);
+  ReadLong(b);
+//  WriteLong(b);
+  summa(a, b, c);
+  WriteLong(c);
+}

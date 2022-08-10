@@ -1,0 +1,43 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+
+void move(int *A, int n, int z){
+  int s = A[n];
+  for(int i = n; i > z; i--){
+    A[i] = A[i-1];
+  }
+  A[z] = s;
+}
+
+int main(){
+  FILE *in = fopen("input.txt", "r");
+	FILE *out = fopen("output.txt", "w");
+	int n, min, max, z = 0;
+  fscanf(in, "%d", &n);
+  fscanf(in, "%d", &min);
+  fscanf(in, "%d", &max);
+  int *A = new int[n];
+  for(int i = 0; i < n; i++) {
+    fscanf(in, "%d", &A[i]);
+  }
+  for(int i = 0; i < n; i++) {
+    if(A[i] < min) {
+      move(A, i, z);
+      z++;
+      }
+  }
+  int h = z;
+  for(int i = z; i < n; i++) {
+    if(A[i] >= min && A[i] <= max){
+      move(A, i, h);
+      h++;
+    }
+  }
+  for(int i = 0; i < n; i++) {
+    fprintf(out, "%d ", A[i]);
+  }
+	fclose(out);
+	fclose(in);
+}

@@ -1,0 +1,52 @@
+#include <iostream>
+#include <stdlib.h>
+#include <vector>
+#include <algorithm>
+#include <fstream>
+using namespace std;
+
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+const int MaxN = 101, Big = 100000;
+typedef int mass[MaxN][MaxN];
+int i, j, n, Start, Finish, m, k, d; mass A, D, P;
+bool Use[MaxN];
+void Way( int i, int j ) {
+if (P[i][j] == 0 && i!=j ) out << ' ' << j;
+else { Way(i,P[i][j]); Way(P[i][j],j); }
+}
+void Floid() {
+int i, j, k, r;
+for (i=1;i<=n;i++)
+for (j=1;j<=n;j++) D[i][j]=A[i][j];
+for (k=1;k<=n;k++)
+for (i=1;i<=n;i++)
+for (j=i+1;j<=n;j++)
+{ r=D[i][k]+D[k][j];
+if (D[i][j]>r){
+D[i][j]=r; D[j][i]=r;P[i][j]=k; P[j][i]=k;
+}
+}
+}
+void Init() {
+int i, j;
+in >> n >> m >> Start >> Finish;
+for (i=1;i<=n;i++) {
+for (j=1;j<=n;j++)
+if (i==j) A[i][j]=0; else A[i][j]=Big;
+}
+for (k=1; k<=m; k++) {
+in >> i >> j >> d; A[i][j]=d; A[j][i]=d;
+}
+}
+int main() {
+Init(); Floid();
+if (D[Start][Finish] == Big ) out <<"-1";
+else
+{ out << D[Start][Finish] << endl;
+{ out << Start; Way(Start, Finish);
+out << endl ;}
+}
+}

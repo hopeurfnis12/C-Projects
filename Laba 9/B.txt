@@ -1,0 +1,60 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+using namespace std;
+
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+int main(){
+  long long n;
+  vector<string> A(0);
+  bool t = true;
+
+  in >> n;
+  
+  for(long long i = 0; i < n; i++){
+    A.resize(i+1);
+    in >> A[i];
+    //cout << A[i] << endl;
+  }
+  
+  int x;
+  for(long long i = 0; i < n; i++){
+    x = 0;
+    //cout << A[i] << endl;
+    for(int j = 0; j < n; j++){
+      if(j == i) continue;
+      //cout << A[j] << endl;
+      int h = A[j].size() - A[i].size();
+      if(h < 0) continue;
+      long long l2 = A[i].size();
+
+
+      for(int c = 0; c < h + 1; c++){
+        t = true;
+        if(A[j][c] == A[i][0]){
+          
+          for(long long z = 1; z < l2; z++){
+            if(A[j][c + z] != A[i][z]){
+              t = false;
+              c += z - 1;
+              break;
+            }
+          }
+          
+          if(t == true){
+            x++;
+          }
+
+        }
+      }
+
+
+
+    }
+  out << x << endl;
+  }
+}

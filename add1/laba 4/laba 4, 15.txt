@@ -1,0 +1,25 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+long F(long *a, long i, long n){
+  if (n < 0)
+    return 0;
+  else if (n == 0)
+    return 1;
+  return i < 0 ? 0 : F(a, i - 1, n) + F(a, i, n - a[i]);
+}
+
+int main(){
+  int n;
+  in >> n;
+  if(n <= 0) cout << -1;
+  else {
+    long k[6] = {1, 5, 10, 50, 100, 500};
+    out << F(k, 5, n);
+  }
+}

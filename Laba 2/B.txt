@@ -1,0 +1,76 @@
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+using namespace std;
+
+int main(){
+  FILE *in = fopen("input.txt", "r");
+	FILE *out = fopen("output.txt", "w");
+	char c[100];
+	bool t = true;
+	int x[100];
+	int s = 0, a = 0;
+	for(int i = 0;;i++){
+	    if(feof(in)) break;
+	    fscanf(in, "%c", &c[i]);
+	}
+	int q=0;
+	while(c[q] == ' ') q++;
+	for(int i = q; ; i++){
+	    int y = i;
+	    switch (c[i]) {
+            case '+':
+                x[s-2] = x[s-2] + x[s-1];
+                s--;
+                i++;
+                break;
+            case '-':
+                x[s-2] = x[s-2] - x[s-1];
+                s--;
+                i++;
+                break;
+            case '*':
+                x[s-2] = x[s-1] * x[s-2];
+                s--;
+                i++;
+                break;
+            case '/':
+                x[s-2] = x[s-2] / x[s-1];
+                s--;
+                i++;
+                break;
+            default:
+                a = 0;
+                int h = 0;
+                if(c[i] >= '0' && c[i] <= '9') {
+                int g = 0;
+                while(c[i] != ' '){
+                    g++;
+                    i++;
+                }
+                int w = 1;
+                for(int p = 1; p < g; p++){
+                  w = w * 10;
+                }
+                for(int m = g; m > 0; m--){
+                    a = (int)(c[y]);
+                    h = h + ((a - 48) * w);
+                    w /= 10;
+                    y++;
+                }
+                x[s] = h;
+                s++;
+                } else t = false;
+                while(c[i] == ' ') i++;
+                i--;
+        }
+        if (t == false) break;
+        while(c[i] == ' ') i++;
+        i--;
+	}
+	fprintf(out, "%d", x[0]);
+	fclose(out);
+	fclose(in);
+}

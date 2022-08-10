@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <fstream>
+#include <stdlib.h>
+#include <algorithm>
+#include <string>
+#include <set>
+using namespace std;
+
+
+long long n, sum = 1;
+string st;
+multiset<string> s;
+multiset<string> :: iterator it;
+
+FILE *in = fopen("input.txt", "r");
+FILE *out = fopen("output.txt", "w");
+/*
+void ex(long long l){
+  bool t = true;
+  if (l == n) {
+    if(*s.find(st) != st) {
+      for(int i = 0; i < n - 1; i++){
+        if(st[i] == '2' && st[i+1] == '2'){
+          t = false;
+        }
+      }
+      if(t == true){
+        sum++;
+        printf("%s\n", st.c_str());
+      }
+      s.insert(st);
+    }
+  }
+  else
+  for (long long j = l; j < n; j++){
+    swap(st[l], st[j]);
+    ex(l + 1);
+    swap(st[l], st[j]);
+  }
+}
+*/
+int main() {
+  fscanf(in, "%lld", &n);
+/*  for(int i = 0; i < n; i++) st += "1";
+  for(int i = 0; i < n; i++){
+    st[i] = '2';
+    ex(0);
+  }*/
+  long long x = 1;
+  long long y = 1;
+  for(int i = 0; i < n; i++){
+    y = sum;
+    sum += x;
+    x = y;
+  }
+  fprintf(out, "%lld", sum);
+}

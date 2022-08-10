@@ -1,0 +1,38 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+string P,T;
+
+void KMP(const string& S, int b, const string& pattern){
+  vector<int> pf (pattern.length());int len;
+// вычисление префикс-функции за время O(m)
+  pf[0] = 0; len = 0;
+  for (int i = 1; i<pattern.length(); ++i){
+    while(len>0 && pattern[i] != pattern[len])
+      len = pf[len-1];
+    if (pattern[i] == pattern[len]) len++;
+    pf[i] = len;
+  }
+// поиск образца
+len=0;
+  for (int i = b; i<S.length(); ++i){
+    while ((len>0) && (pattern[len] != S[i]))
+    len=pf[len-1];
+    if (pattern[len] == S[i]) len++;
+    if (len==pattern.length())
+ //найден последний символ образца
+      out << (i-pattern.length()+1) << ' ';
+  }
+}
+
+int main(){
+  in >> T;
+  in >> P;
+  KMP(T,0,P);
+}

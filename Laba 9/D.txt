@@ -1,0 +1,29 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt"); 
+
+int main() {
+  // Y[i]=min(X[j]), где 1 ≤ i ≤ N−M+1, i ≤ j ≤ i+M−1, 
+  long long n, m, min;
+  in >> n >> m;
+  long long *x = new long long[n];
+  for(long long i = 1; i <= n; i++) {
+    in >> x[i];
+  }
+
+  for(long long i = 1; i <= n - m + 1; i++) {
+    for(long long j = i; j <= i + m - 1; j++) {
+      if(j == i){
+        min = x[j];
+      } else {
+        if(min > x[j]) min = x[j];
+      }
+    }
+    out << min << " ";
+  }
+}

@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+  FILE *in = fopen("input.txt", "r");
+  FILE *out = fopen("output.txt", "w");
+  int n, x;
+  vector<int> A(100);
+  for(int i = 0; ;i++){
+    fscanf(in, "%d", &x);
+    if(x == 0) {
+      n = i;
+      break;
+    }
+    else A[i] = x;
+  }
+  A.resize(n);
+  sort(A.begin(), A.end());
+  for(int i = 0;i<n;i++) fprintf(out, "%d ", A[i]);
+}

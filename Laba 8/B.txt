@@ -1,0 +1,44 @@
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+#include <vector>
+#include <cstring>
+#include <fstream>
+using namespace std;
+
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+int way[100], visit[100], n, m, k, a[100][100];
+int start;
+void Print(int v)
+{
+if (v>0) { Print(way[v]); out<<v<<' '; }
+}
+void dfs(int v)
+{
+int u;
+visit[v]=1;
+for (u=1; u<=n;u++)
+if (a[v][u]>0 && visit[u]==0)
+{ way[u]=v; dfs(u); }
+Print(v); out<<endl;
+visit[v]=0;
+}
+void Init() {
+int i,j,k;
+in>>n>>m;
+memset(way,0,sizeof(way));
+memset(visit,0,sizeof(visit));
+memset(a,0,sizeof(a));
+for (k=1; k<=m; k++)
+{
+in>>i>>j; a[i][j]=1; a[j][i]=1;
+}
+in>>start;
+}
+int main() {
+Init();
+dfs(start);
+}

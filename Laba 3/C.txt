@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <set>
+#include <algorithm>
+using namespace std;
+
+int main() {
+  FILE *in = fopen("input.txt", "r");
+  FILE *out = fopen("output.txt", "w");
+  long n, m, x, max;
+  fscanf(in, "%ld", &n);
+  fscanf(in, "%ld", &m);
+  multiset<long> A;  
+  for(int i = 0; i < n; i++){
+    fscanf(in, "%ld", &x);
+    A.insert((int)x);
+  }
+  multiset <long> :: iterator i;
+  for(int i = 0; i < m; i++){
+    A.insert(*A.rbegin() / 10);
+    A.erase(--A.end());
+  }
+  int sum = 0;
+  for (i = A.begin(); i != A.end(); i++) {
+    sum = sum + *i;
+  }
+  fprintf(out, "%d", sum);
+}

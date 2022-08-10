@@ -1,0 +1,43 @@
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+long long n, s1, s, g1, g, v;
+ 
+long long NOD(long long a, long long b){
+  if (a != 0) return NOD(b % a,a);
+  else return b;
+}
+long long zt(long long x1, long long y1, long long x2, long long y2){
+  if (NOD(x1-x2 , y1-y2) > 0) return (NOD(x1-x2 , y1-y2)+1);
+  else  return (-NOD(x1-x2 , y1-y2)+1);
+}
+
+int main(){
+  int n;
+  in >> n;
+  long long *x = new long long[n + 1];
+  long long *y = new long long[n + 1];
+  for(int i = 0; i < n; i++){
+    in >> x[i] >> y[i];
+  }
+  x[n] = x[0];
+  y[n] = y[0];
+  s = 0;
+  g = 0;
+  for(int i = 0; i < n; i++) {
+    s += x[i]*y[i+1]-y[i]*x[i+1];
+  }
+  s = abs(s);
+  for (int i = 0; i < n; i++){
+    g += zt(x[i], y[i], x[i+1], y[i+1]);
+  }
+  g = g - n;
+  v = floor((s+2-g) / 2);
+  out << v << endl;
+}

@@ -1,0 +1,31 @@
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+int main(){
+  int n;
+  in >> n;
+  vector<int> A(n);
+  for(int i = 0; i < n; i++){
+    in >> A[i];
+  }
+  int sum = 0;
+  sort(A.begin(), A.end());
+  if(n % 2 == 0){
+    for(int i = 0; i < n; i += 2){
+      sum += abs(A[i] - A[i+1]);
+    }
+  } else {
+    for(int i = 0; i < n - 1; i += 2){
+      sum += abs(A[i] - A[i+1]);
+    }
+    sum += abs(A[n - 2] - A[n - 1]);
+  }
+  out << sum;
+}

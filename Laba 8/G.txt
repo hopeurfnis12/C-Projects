@@ -1,0 +1,52 @@
+#include <iostream>
+#include <fstream>
+#include <fstream>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+int list[100], color[100], A[101][101];
+int n, m, u, v, num, i;
+void Dfs1(int v) {
+int u;
+color[v]=1;
+num++; list[num]=v;
+for (u=1;u<=n;u++)
+if (A[v][u]>0 && color[u]==0) {
+Dfs1(u); A[v][u]=0;
+}
+}
+void Dfs2(int v) {
+int u;
+color[v]=num;
+for (u=1;u<=n;u++)
+if (A[v][u]>0 && color[u]==0) Dfs2(u);
+}
+int main(){
+  in >> n >> m;
+  for (i=1;i<=m;i++) {
+    in >> u >> v;
+    A[u][v]=1;
+    A[v][u]=1;
+  }
+  for (v=1;v<=n;v++) {
+    color[v]=0; list[v]=0;
+  }
+  num=0;
+  for (v=1;v<=n;v++)
+    if (color[v] == 0) Dfs1(v);
+  for (v=1;v<=n;v++) color[v]=0;
+  num=0;
+  for (v=1;v<=n;v++)
+    if (color[list[v]] == 0) {
+      num++;
+      Dfs2(list[v]);
+  }
+  int x = 0;
+  for (u=1;u<=n;u++)
+    for (v=1;v<=n;v++)
+      if (A[u][v]>0 && color[u] != color[v])
+        x++;
+  out << n - x;
+}

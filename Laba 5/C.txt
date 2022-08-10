@@ -1,0 +1,42 @@
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <string>
+#include <set>
+using namespace std;
+
+string st;
+long r = 0, n;
+
+ifstream in ("input.txt");
+ofstream out ("output.txt");
+
+bool check(string ss){
+  long x = ss.length() - 1;
+  for (int c = 0; c < ss.length(); c++) {
+    if (ss[c] == ss[x]) x--;
+		else return false;
+	}
+  return true;
+}
+
+void ex(string ss, int k){
+  string s = ss;
+  for(int i = k; i < st.length(); i++){
+    s += st[i];
+    //cout << s << endl;
+    if(check(s)) {
+      r++;
+    }
+    ex(s, i+1);
+    s = ss;
+  }
+}
+
+int main() {
+  getline(in, st);
+  //cout << st << endl;
+  n = st.length();
+  ex("", 0);
+  out << r;
+}

@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <list>
+#include <algorithm>
+using namespace std;
+
+bool rem(const int& val) { 
+  return val < 0;
+}
+
+int main() {
+  FILE *in = fopen("input.txt", "r");
+  FILE *out = fopen("output.txt", "w");
+  int n, x;
+  list<int> A;
+  for(int i = 0; ;i++){
+    fscanf(in, "%d", &x);
+    if(x == 0) {
+      n = i;
+      break;
+    }
+    else A.push_back(x);
+  }
+  A.remove_if(rem);
+  list <int> :: iterator i;
+  for (i = A.begin(); i != A.end(); i++) {
+    fprintf(out, "%i ", *i);
+  }
+}

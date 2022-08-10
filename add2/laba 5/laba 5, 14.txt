@@ -1,0 +1,25 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+int main(){
+int i, a, b, n, sposobi;
+long d;
+in >> n;
+if (n == 0 || n == 1) cout << 0;
+if (n == 2) out << 1;
+if (n == 3) out << 2;
+a = 3;
+sposobi =2;
+if (n > 3) for(int i = 4; i <= n; i++) {
+  d = i;
+  b = a * (d - 1);
+  a = b + sposobi;
+  sposobi = b;
+}
+if (n > 3) out << sposobi;
+}

@@ -1,0 +1,30 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+int main() {
+  long int n, sum = 0, max = 0, mi = 1, maxbeg = 1, maxend = 1, a;
+  in >> n;
+  in >> a;
+  max = a;
+  sum = a;
+  
+  for(long int i = 1; i < n; i++){
+    in >> a;
+    sum += a;
+    if(sum < a){
+      sum = a;
+      mi = i + 1;
+    }
+
+    if(sum > max){
+      max = sum;
+      maxend = i + 1;
+      maxbeg = mi;
+    }
+  }
+  out << maxbeg << " " << maxend;  
+}

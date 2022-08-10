@@ -1,0 +1,42 @@
+#include <iostream>
+#include <fstream>
+#include <stdlib.h>
+#include <algorithm>
+#include <string>
+#include <set>
+using namespace std;
+
+
+long L, n = 0;
+string st;
+multiset<string>s;
+multiset <string> :: iterator it;
+
+ifstream in ("input.txt");
+ofstream out ("output.txt");
+
+void ex(long l){
+  if (l == L) {
+    if(*s.find(st) != st) {
+        s.insert(st);
+        out << endl << st.c_str();
+      }
+  }
+  else
+  for (long j = l; j < L; j++){
+    swap(st[l], st[j]);
+    ex(l + 1);
+    swap(st[l], st[j]);
+  }
+}
+
+int main() {
+  getline(in, st);
+  L = st.length();
+  n = 1;
+  for(long i = 1; i <= L; i++){
+    n *= i;
+  }
+  out << n;
+  ex(0);
+}
